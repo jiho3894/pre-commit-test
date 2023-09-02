@@ -29,8 +29,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "eslint --fix",
-      "gid add"
+      "eslint --fix"
     ]
   }
 }
