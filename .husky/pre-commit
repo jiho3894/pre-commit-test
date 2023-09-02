@@ -1,4 +1,16 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/bash
 
-npx lint-staged
+# Get the current branch name
+current_branch=$(git branch --show-current)
+
+# Extract numbers from the branch name (e.g., charley/CLICKUP-1234 -> 1234)
+branch_number=$(echo "$current_branch" | sed 's/[^0-9]*//g')
+
+# Read the commit message
+commit_message=$(cat $1)
+
+# Check if the commit message includes the branch number
+if [[ ! $commit_message =~ $branch_number ]]; then
+  echo "ERROR: Commit message must include '$branch_number' , '$commit_message', '$current_branch"
+  exit 1
+fi
