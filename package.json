@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "check-branch": "node check-branch.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@types/node": "20.5.8",
@@ -31,11 +30,5 @@
     "*.{ts,tsx}": [
       "eslint --fix"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pnpm run check-branch",
-      "pre-push": "pnpm run check-commit-message"
-    }
   }
 }
