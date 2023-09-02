@@ -1,14 +1,24 @@
-// check-branch.js
+// check-commit-message.js
 const child_process = require('child_process');
 
 // 현재 브랜치 이름 가져오기
 const currentBranch = child_process.execSync('git branch --show-current').toString().trim();
 
-// 브랜치 이름에서 숫자 추출 (예: apple/test-12 -> 12)
-const branchNumber = currentBranch.match(/\d+/);
+// 브랜치 이름에서 CLICKUP- 뒤의 숫자 추출 (예: CLICKUP-1234 -> 1234)
+const branchNumberMatch = currentBranch.match(/CLICKUP-(\d+)/);
 
-// 숫자가 없거나 특정 범위 내에 없을 경우 커밋 거부
-if (!branchNumber || parseInt(branchNumber[0]) < 1 || parseInt(branchNumber[0]) > 10) {
-  console.error('브랜치 이름에 특정 숫자 범위(1에서 10 사이)가 없습니다.');
+if (!branchNumberMatch) {
+  console.error('브랜치 이름에 CLICKUP- 뒤에 숫자가 없습니다.');
+  process.exit(1); // 커밋을 막음
+}
+
+const branchNumber = branchNumberMatch[1];
+
+// 최근 커밋 메시지 가져오기
+const lastCommitMessage = child_process.execSync('git log -1 --pretty=%B').toString().trim();
+
+// 커밋 메시지에 숫자가 포함되어 있지 않으면 커밋 거부
+if (!lastCommitMessage.includes(branchNumber)) {
+  console.error(`커밋 메시지에 브랜치 숫자(${branchNumber})가 포함되지 않았습니다.`);
   process.exit(1); // 커밋을 막음
 }
