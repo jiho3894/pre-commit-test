@@ -34,7 +34,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run check-branch"
+      "pre-commit": "pnpm run check-branch",
+      "pre-push": "pnpm run check-commit-message"
     }
   }
 }
