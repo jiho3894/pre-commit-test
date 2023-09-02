@@ -1,12 +1,4 @@
-#!/bin/bash
-# Read the commit message
-commit_message=$(cat $1)
-# Define a regex pattern to match "CLICKUP-" followed by numbers
-pattern="CLICKUP-[0-9]+"
-# Check if the commit message matches the pattern
-if [[ ! $commit_message =~ $pattern ]]; then
-  echo "ERROR: Commit message must include 'CLICKUP-' followed by numbers"
-  exit 1
-fi
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
 npx lint-staged
