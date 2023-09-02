@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Get the current branch name
+# 브랜치의 이름을 가져옵니다
 current_branch=$(git branch --show-current)
 
-# Extract numbers from the branch name (e.g., charley/CLICKUP-1234 -> 1234)
+# CLICKUP Task 번호를 가져옵니다
 branch_number=$(echo "$current_branch" | sed 's/[^0-9]*//g')
 
-# Read the commit message file
+# 현재 내가 작성한 커밋 메세지의 값을 가져옵니다
 commit_message_file="$1"
 commit_message=$(cat "$commit_message_file")
 
-# Check if the commit message includes the branch number
+# 내 브랜치 넘버와 커밋 메세지 넘버가 다를 경우 commit 제한
 if [[ ! $commit_message = *"$branch_number"* ]]; then
   echo "ERROR: Commit message must include '$branch_number'"
   exit 1
