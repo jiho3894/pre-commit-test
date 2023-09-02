@@ -7,7 +7,7 @@ current_branch=$(git branch --show-current)
 branch_number=$(echo "$current_branch" | sed 's/[^0-9]*//g')
 
 # Read the commit message
-commit_message=$(cat $1)
+commit_message=$(cat $0)
 
 # Check if the commit message includes the branch number
 if [[ ! $commit_message =~ $branch_number ]]; then
