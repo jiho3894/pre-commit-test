@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Get the current branch name
+current_branch=$(git branch --show-current)
+
+# Extract numbers from the branch name (e.g., charley/CLICKUP-1234 -> 1234)
+branch_number=$(echo "$current_branch" | sed 's/[^0-9]*//g')
+
+# Get the list of commits to be pushed
+commits_to_push=$(git log --pretty=format:%s $(git merge-base HEAD $(git rev-parse --abbrev-ref @{u}))..HEAD)
+
+# Check if any commit message includes the branch number
+if [[ ! $commits_to_push = *"$branch_number"* ]]; then
+  echo "ERROR: At least one commit message must include '$branch_number'"
+  
+  # Perform git reset HEAD~1 to unstage the last commit
+  git reset HEAD~1
+  
+  exit 1
+fi
