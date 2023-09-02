@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Get the current branch name
+current_branch=$(git branch --show-current)
+
+# Extract numbers from the branch name (e.g., charley/CLICKUP-1234 -> 1234)
+branch_number=$(echo "$current_branch" | sed 's/[^0-9]*//g')
+
+# Read the commit message file
+commit_message_file="$1"
+commit_message=$(cat "$commit_message_file")
+
+# Check if the commit message includes the branch number
+if [[ ! $commit_message = *"$branch_number"* ]]; then
+  echo "ERROR: Commit message must include '$branch_number'"
+  exit 1
+fi
